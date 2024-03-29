@@ -1,0 +1,75 @@
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.grades = {}
+
+    def add_grade(self, subject, grade):
+        self.grades[subject] = grade
+
+    def calculate_average_grade(self):
+        if len(self.grades) == 0:
+            return 0
+        total = sum(self.grades.values())
+        return total / len(self.grades)
+
+
+class Gradebook:
+    def __init__(self):
+        self.students = {}
+
+    def add_student(self, name):
+        if name not in self.students:
+            self.students[name] = Student(name)
+            print(f"Student '{name}' added to the gradebook.")
+        else:
+            print(f"Student '{name}' already exists in the gradebook.")
+
+    def add_grade(self, name, subject, grade):
+        if name in self.students:
+            self.students[name].add_grade(subject, grade)
+            print(f"Grade added for '{subject}' for student '{name}'.")
+        else:
+            print(f"Student '{name}' does not exist in the gradebook.")
+
+    def display_gradebook(self):
+        print("Gradebook:")
+        for student in self.students.values():
+            avg_grade = student.calculate_average_grade()
+            print(f"Student: {student.name}, Average Grade: {avg_grade:.2f}")
+            print("Grades:")
+            for subject, grade in student.grades.items():
+                print(f"- {subject}: {grade}")
+            print()
+
+
+def main():
+    gradebook = Gradebook()
+
+    while True:
+        print("\nOptions:")
+        print("1. Add Student")
+        print("2. Add Grade")
+        print("3. Display Gradebook")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == '1':
+            name = input("Enter student name: ")
+            gradebook.add_student(name)
+        elif choice == '2':
+            name = input("Enter student name: ")
+            subject = input("Enter subject: ")
+            grade = float(input("Enter grade: "))
+            gradebook.add_grade(name, subject, grade)
+        elif choice == '3':
+            gradebook.display_gradebook()
+        elif choice == '4':
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
